@@ -1,0 +1,118 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+<BaseLayout title="Our Story" description="How Jack and Jenna met, fell in love, and got engaged at Haskell's Beach.">
+
+  <div class="section section--wide story-layout">
+
+    <header class="story-header">
+      <p class="eyebrow">A love story</p>
+      <h1 class="page-heading">Our Story</h1>
+    </header>
+
+    <article class="story-body prose">
+
+      <section class="story-chapter">
+        <h2 class="chapter-title display">How We Met</h2>
+        <p>
+          [How you met — add your own details here. Keep it warm and specific; the
+          best details are the small, true ones that you'd tell a friend over dinner.]
+        </p>
+        <p>
+          [Continue the story. What was the moment things shifted from "friends" to
+          something more? A line or two is plenty.]
+        </p>
+      </section>
+
+      <div class="story-photo-placeholder" aria-label="Photo placeholder — engagement photo coming soon">
+        <span class="display">Photo coming soon</span>
+      </div>
+
+      <section class="story-chapter">
+        <h2 class="chapter-title display">The Proposal</h2>
+        <p>
+          On a warm afternoon, we walked the bridge at Haskell's Beach on the way back
+          from lunch at the Bacara. The views stretched out over the Pacific, the
+          hills were golden behind us &mdash; and that's where Jack asked the question.
+        </p>
+        <p>
+          Jenna said yes.
+        </p>
+        <p>
+          [Feel free to add more color here: what she was wearing, what you said,
+          how you felt. Or leave it just like this.]
+        </p>
+      </section>
+
+      <div class="story-photo-placeholder" aria-label="Photo placeholder — engagement photo coming soon">
+        <span class="display">Photo coming soon</span>
+      </div>
+
+      <section class="story-chapter">
+        <h2 class="chapter-title display">Now &amp; Next</h2>
+        <p>
+          [A short paragraph about where you are now. Where you live, what you're
+          excited about for the wedding and beyond. One or two sentences is great.]
+        </p>
+        <p>
+          We can't wait to celebrate with everyone we love. See you in April 2028.
+        </p>
+      </section>
+
+    </article>
+
+  </div>
+
+</BaseLayout>
+
+<style>
+.story-layout {
+  padding-top: var(--s-lg);
+  padding-bottom: var(--s-xl);
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+
+.story-header {
+  margin-bottom: var(--s-lg);
+}
+
+.story-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-lg);
+}
+
+.story-chapter {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.chapter-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--accent);
+  font-weight: 300;
+  font-style: italic;
+}
+
+.story-photo-placeholder {
+  width: 100%;
+  max-width: 640px;
+  aspect-ratio: 4 / 3;
+  background: oklch(from var(--blush) l c h / 0.2);
+  border: 1px dashed oklch(from var(--blush) l c h / 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-size: 1.2rem;
+  font-style: italic;
+}
+</style>

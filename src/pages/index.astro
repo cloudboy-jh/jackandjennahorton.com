@@ -1,0 +1,200 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+<BaseLayout title="Home">
+
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">You are cordially invited</p>
+      <h1 class="display hero-names">Jack &amp; Jenna</h1>
+      <div class="hero-divider"></div>
+      <p class="hero-date display">April 2028</p>
+      <p class="hero-location">Santa Barbara &mdash; Camarillo area, California</p>
+      <p class="hero-note">
+        Formal invitations coming soon. In the meantime, save the date and reach out with any questions.
+      </p>
+      <div class="hero-actions">
+        <a href="/rsvp" class="btn btn--filled">RSVP</a>
+        <a href="/details" class="btn">Event Details</a>
+      </div>
+    </div>
+    <div class="hero-petals" aria-hidden="true">
+      <div class="petal petal-1"></div>
+      <div class="petal petal-2"></div>
+      <div class="petal petal-3"></div>
+    </div>
+  </section>
+
+  <section class="section section--wide tease-grid">
+    <a href="/our-story" class="tease">
+      <span class="tease-num display">01</span>
+      <h2 class="tease-title display">Our Story</h2>
+      <p>How we met, the proposal at Haskell's Beach, and everything in between.</p>
+    </a>
+    <a href="/details" class="tease">
+      <span class="tease-num display">02</span>
+      <h2 class="tease-title display">Details</h2>
+      <p>Ceremony, reception, dress code, and yes &mdash; there is an open bar.</p>
+    </a>
+    <a href="/travel" class="tease">
+      <span class="tease-num display">03</span>
+      <h2 class="tease-title display">Travel</h2>
+      <p>Getting here from anywhere: airports, hotels, parking.</p>
+    </a>
+  </section>
+
+</BaseLayout>
+
+<style>
+/* ─── Hero ──────────────────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  min-height: calc(100svh - var(--nav-h));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--s-lg) var(--s-md);
+  overflow: hidden;
+  text-align: center;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-sm);
+}
+
+.hero-eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.hero-names {
+  font-size: clamp(4rem, 10vw, 7.5rem);
+  color: var(--accent);
+  line-height: 1;
+}
+
+.hero-divider {
+  width: 60px;
+  height: 1px;
+  background: var(--blush);
+  margin-block: var(--s-xs);
+}
+
+.hero-date {
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  color: var(--charcoal);
+  font-style: italic;
+}
+
+.hero-location {
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.hero-note {
+  font-size: 0.95rem;
+  color: oklch(from var(--charcoal) calc(l + 0.2) c h);
+  max-width: 44ch;
+  line-height: 1.6;
+  margin-top: var(--s-sm);
+}
+
+.hero-actions {
+  display: flex;
+  gap: var(--s-sm);
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: var(--s-sm);
+}
+
+/* ─── Decorative petals ─────────────────────────────────────────────────── */
+.hero-petals {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.petal {
+  position: absolute;
+  border-radius: 50% 0 50% 0;
+  opacity: 0.18;
+}
+
+.petal-1 {
+  width: 380px;
+  height: 380px;
+  background: var(--blush);
+  top: -80px;
+  right: -100px;
+  transform: rotate(25deg);
+}
+.petal-2 {
+  width: 260px;
+  height: 260px;
+  background: var(--marigold);
+  bottom: 60px;
+  left: -60px;
+  transform: rotate(-15deg);
+}
+.petal-3 {
+  width: 180px;
+  height: 180px;
+  background: var(--sage);
+  bottom: -40px;
+  right: 15%;
+  transform: rotate(40deg);
+}
+
+/* ─── Tease grid ────────────────────────────────────────────────────────── */
+.tease-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: oklch(from var(--blush) l c h / 0.3);
+  border-top: 1px solid oklch(from var(--blush) l c h / 0.3);
+}
+
+.tease {
+  background: var(--cream);
+  padding: var(--s-lg) var(--s-md);
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-xs);
+  transition: background 0.2s ease;
+}
+.tease:hover { background: oklch(from var(--blush) l c h / 0.12); }
+
+.tease-num {
+  font-size: 0.85rem;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+.tease-title {
+  font-size: 2rem;
+  color: var(--accent);
+  font-weight: 300;
+  margin-bottom: 0.25rem;
+}
+.tease p {
+  font-size: 0.9rem;
+  color: oklch(from var(--charcoal) calc(l + 0.25) c h);
+  line-height: 1.55;
+}
+
+@media (max-width: 700px) {
+  .tease-grid { grid-template-columns: 1fr; }
+  .petal-1 { width: 220px; height: 220px; }
+  .petal-2 { width: 160px; height: 160px; }
+}
+</style>

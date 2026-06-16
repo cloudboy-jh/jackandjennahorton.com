@@ -1,0 +1,171 @@
+/* ─── Google Fonts ─────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+/* ─── Design tokens ────────────────────────────────────────────────────── */
+:root {
+  /* Palette — mapped to OKLCH so manipulations stay gamut-safe */
+  --blush:      oklch(83% 0.06 30);
+  --sage:       oklch(73% 0.05 145);
+  --terracotta: oklch(60% 0.1  44);
+  --marigold:   oklch(77% 0.13 75);
+  --cream:      oklch(97% 0.01 75);
+  --charcoal:   oklch(22% 0.01 75);
+
+  /* Semantic */
+  --bg:         var(--cream);
+  --text:       var(--charcoal);
+  --accent:     var(--terracotta);
+  --muted:      var(--sage);
+  --highlight:  var(--blush);
+
+  /* Typography */
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+
+  /* Spacing scale */
+  --s-xs:  0.5rem;
+  --s-sm:  1rem;
+  --s-md:  2rem;
+  --s-lg:  4rem;
+  --s-xl:  7rem;
+
+  /* Layout */
+  --max-prose: 68ch;
+  --max-wide:  1100px;
+  --nav-h:     5rem;
+}
+
+/* ─── Reset ────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  line-height: 1.65;
+  font-weight: 300;
+}
+
+img, picture, video { display: block; max-width: 100%; }
+
+a { color: inherit; }
+
+/* ─── Typography helpers ────────────────────────────────────────────────── */
+.display {
+  font-family: var(--font-display);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.prose {
+  max-width: var(--max-prose);
+  margin-inline: auto;
+}
+
+.prose p + p { margin-top: 1em; }
+
+/* ─── Utility ───────────────────────────────────────────────────────────── */
+.center { text-align: center; }
+
+.divider {
+  border: none;
+  border-top: 1px solid oklch(from var(--blush) l c h / 0.5);
+  margin-block: var(--s-lg);
+}
+
+/* ─── Section wrapper ───────────────────────────────────────────────────── */
+.section {
+  padding-block: var(--s-lg);
+  padding-inline: var(--s-md);
+}
+
+.section--wide {
+  max-width: var(--max-wide);
+  margin-inline: auto;
+}
+
+/* ─── Page heading ──────────────────────────────────────────────────────── */
+.page-heading {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 5vw, 4.5rem);
+  font-weight: 300;
+  color: var(--accent);
+  letter-spacing: -0.015em;
+  line-height: 1.05;
+  margin-bottom: var(--s-md);
+}
+
+/* ─── Button ────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.75rem 2rem;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.btn:hover, .btn:focus-visible {
+  background: var(--accent);
+  color: var(--cream);
+  outline: none;
+}
+.btn--filled {
+  background: var(--accent);
+  color: var(--cream);
+}
+.btn--filled:hover, .btn--filled:focus-visible {
+  background: oklch(from var(--terracotta) calc(l - 0.08) c h);
+  border-color: oklch(from var(--terracotta) calc(l - 0.08) c h);
+}
+
+/* ─── Form ──────────────────────────────────────────────────────────────── */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.field label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.field input,
+.field select,
+.field textarea {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 300;
+  padding: 0.75rem 1rem;
+  border: 1px solid oklch(from var(--sage) l c h / 0.5);
+  background: oklch(from var(--cream) calc(l - 0.01) c h);
+  color: var(--text);
+  border-radius: 0;
+  appearance: none;
+  transition: border-color 0.15s ease;
+  width: 100%;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--terracotta);
+}

@@ -1,0 +1,169 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+<BaseLayout title="Travel" description="Getting to Jack and Jenna's wedding: airports, hotels, and parking near Santa Barbara.">
+
+  <div class="section section--wide">
+    <h1 class="page-heading">Travel</h1>
+    <p class="page-intro prose">
+      For anyone coming from out of town &mdash; here's everything you need to plan your trip.
+    </p>
+
+    <div class="travel-blocks">
+
+      <section class="travel-section">
+        <h2 class="display travel-heading">Getting Here</h2>
+        <div class="airport-grid">
+          <div class="airport">
+            <h3 class="airport-code display">SBA</h3>
+            <p class="airport-name">Santa Barbara Airport</p>
+            <p>
+              Closest option. Served by United, American, and Alaska from major hubs.
+              About 20 minutes to most venues in the area.
+            </p>
+          </div>
+          <div class="airport">
+            <h3 class="airport-code display">LAX</h3>
+            <p class="airport-name">Los Angeles International</p>
+            <p>
+              More routes and usually cheaper flights. 90&ndash;120 minutes to Santa Barbara
+              depending on traffic. Rent a car or take the Amtrak Pacific Surfliner.
+            </p>
+          </div>
+        </div>
+        <p class="travel-tip">
+          The Amtrak Pacific Surfliner runs from LA Union Station directly to Santa Barbara.
+          Comfortable, scenic, and avoids the 101 entirely.
+        </p>
+      </section>
+
+      <hr class="divider" />
+
+      <section class="travel-section">
+        <h2 class="display travel-heading">Where to Stay</h2>
+        <div class="hotel-placeholder">
+          <p class="display hotel-soon">Hotel block coming soon</p>
+          <p>
+            We're working on securing a room block at a nearby hotel. Once confirmed,
+            the details and booking link will appear here. In the meantime, here are
+            a few areas worth looking at:
+          </p>
+          <ul class="area-list">
+            <li><strong>Goleta</strong> &mdash; closest to the Bacara / Haskell's Beach area, many hotel options</li>
+            <li><strong>Downtown Santa Barbara</strong> &mdash; walkable, great restaurants, 15&ndash;20 min to most venues</li>
+            <li><strong>Camarillo</strong> &mdash; if the venue is on that end, more affordable chains</li>
+          </ul>
+        </div>
+      </section>
+
+      <hr class="divider" />
+
+      <section class="travel-section">
+        <h2 class="display travel-heading">Parking</h2>
+        <p>
+          [Parking details to be confirmed with venue. Note will be added here once
+          logistics are locked in &mdash; including whether there's on-site parking,
+          overflow options, or a shuttle from a nearby lot.]
+        </p>
+        <p>
+          If you're planning to drink at the reception, we'd encourage using a rideshare.
+          Uber and Lyft are available throughout the Santa Barbara area.
+        </p>
+      </section>
+
+    </div>
+  </div>
+
+</BaseLayout>
+
+<style>
+.page-intro {
+  margin-bottom: var(--s-lg);
+  color: oklch(from var(--charcoal) calc(l + 0.25) c h);
+}
+
+.travel-blocks {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-lg);
+}
+
+.travel-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-sm);
+}
+
+.travel-heading {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--accent);
+}
+
+.airport-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-md);
+  margin-block: var(--s-sm);
+}
+
+.airport {
+  padding: var(--s-md);
+  border: 1px solid oklch(from var(--blush) l c h / 0.45);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.airport-code {
+  font-size: 2.4rem;
+  font-weight: 300;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+.airport-name {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.travel-tip {
+  font-size: 0.9rem;
+  color: oklch(from var(--charcoal) calc(l + 0.25) c h);
+  padding: var(--s-sm) var(--s-md);
+  border-left: none;
+  background: oklch(from var(--sage) l c h / 0.1);
+  border: 1px solid oklch(from var(--sage) l c h / 0.3);
+}
+
+.hotel-placeholder {
+  padding: var(--s-md);
+  border: 1px solid oklch(from var(--blush) l c h / 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-sm);
+}
+
+.hotel-soon {
+  font-size: 1.6rem;
+  font-style: italic;
+  color: var(--accent);
+}
+
+.area-list {
+  padding-left: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+}
+.area-list li { line-height: 1.5; }
+
+@media (max-width: 600px) {
+  .airport-grid { grid-template-columns: 1fr; }
+}
+</style>

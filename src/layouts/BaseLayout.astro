@@ -1,0 +1,222 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Jack & Jenna — Wedding, April 2028 · Santa Barbara" } = Astro.props;
+const currentPath = Astro.url.pathname;
+
+const nav = [
+  { href: "/",           label: "Home"       },
+  { href: "/our-story",  label: "Our Story"  },
+  { href: "/details",    label: "Details"    },
+  { href: "/travel",     label: "Travel"     },
+  { href: "/rsvp",       label: "RSVP"       },
+  { href: "/registry",   label: "Registry"   },
+  { href: "/faq",        label: "FAQ"        },
+];
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content={description} />
+  <title>{title} · J&J</title>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content={`${title} · Jack & Jenna`} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" type="image/png" href="/jackandjennalogo.png" />
+
+  <!-- Global CSS is bundled by Astro via import in frontmatter -->
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="wordmark" aria-label="Jack &amp; Jenna — Home">
+        <img src="/jackandjennalogo (1).png" alt="Jack & Jenna monogram" class="wordmark-img" />
+      </a>
+
+      <!-- Mobile hamburger -->
+      <button class="hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="site-nav">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav id="site-nav" class="site-nav" aria-label="Main navigation">
+        <ul>
+          {nav.map(({ href, label }) => (
+            <li>
+              <a
+                href={href}
+                class:list={["nav-link", { "nav-link--active": currentPath === href || (href !== "/" && currentPath.startsWith(href)) }]}
+              >
+                {label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <slot />
+  </main>
+
+  <footer class="site-footer">
+    <img src="/jackandjennalogo (1).png" alt="Jack & Jenna monogram" class="footer-logo" />
+    <p>April 2028 &mdash; Santa Barbara</p>
+  </footer>
+
+  <script>
+    const btn = document.querySelector('.hamburger') as HTMLButtonElement;
+    const nav = document.querySelector('.site-nav') as HTMLElement;
+
+    btn?.addEventListener('click', () => {
+      const open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!open));
+      nav.classList.toggle('site-nav--open', !open);
+    });
+
+    // Close on nav click (mobile)
+    nav?.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        btn.setAttribute('aria-expanded', 'false');
+        nav.classList.remove('site-nav--open');
+      });
+    });
+  </script>
+
+</body>
+</html>
+
+<style is:global>
+/* ─── Header ────────────────────────────────────────────────────────────── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: oklch(from var(--cream) calc(l + 0.005) c h / 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid oklch(from var(--blush) l c h / 0.35);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--max-wide);
+  margin-inline: auto;
+  padding: 0 var(--s-md);
+  height: var(--nav-h);
+}
+
+.wordmark {
+  text-decoration: none;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.wordmark-img {
+  height: 3rem;
+  width: auto;
+  display: block;
+}
+
+.site-nav ul {
+  display: flex;
+  gap: var(--s-md);
+  list-style: none;
+  align-items: center;
+}
+
+.nav-link {
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--charcoal);
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.nav-link:hover,
+.nav-link--active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* ─── Hamburger ─────────────────────────────────────────────────────────── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 1.5px;
+  background: var(--charcoal);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+@media (max-width: 700px) {
+  .hamburger { display: flex; }
+
+  .site-nav {
+    display: none;
+    position: absolute;
+    top: var(--nav-h);
+    left: 0;
+    right: 0;
+    background: var(--cream);
+    border-bottom: 1px solid oklch(from var(--blush) l c h / 0.4);
+    padding: var(--s-sm) var(--s-md);
+  }
+  .site-nav--open { display: block; }
+
+  .site-nav ul {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-sm);
+  }
+
+  .nav-link {
+    font-size: 1rem;
+    padding: 0.25rem 0;
+  }
+}
+
+/* ─── Footer ────────────────────────────────────────────────────────────── */
+.site-footer {
+  border-top: 1px solid oklch(from var(--blush) l c h / 0.4);
+  padding: var(--s-lg) var(--s-md);
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+.footer-logo {
+  height: 5rem;
+  width: auto;
+  display: block;
+  opacity: 0.7;
+}
+</style>

@@ -1,0 +1,240 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const DEADLINE = "February 15, 2028";
+---
+<BaseLayout title="RSVP" description="RSVP for Jack and Jenna's wedding, April 2028.">
+
+  <div class="section section--wide rsvp-layout">
+    <header class="rsvp-header">
+      <h1 class="page-heading">RSVP</h1>
+      <p class="rsvp-deadline">
+        Kindly respond by <strong>{DEADLINE}</strong>
+      </p>
+    </header>
+
+    <div class="rsvp-body">
+
+      <form id="rsvp-form" class="rsvp-form" novalidate>
+        <div class="form-grid">
+
+          <div class="field">
+            <label for="name">Your full name</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              required
+              autocomplete="name"
+              placeholder="Jane Smith"
+            />
+          </div>
+
+          <div class="field">
+            <label for="attending">Will you be attending?</label>
+            <select id="attending" name="attending" required>
+              <option value="" disabled selected>Select&hellip;</option>
+              <option value="yes">Joyfully accepts</option>
+              <option value="no">Regretfully declines</option>
+            </select>
+          </div>
+
+          <div class="field" id="plus-one-field" style="display:none">
+            <label for="plus_one">Plus-one name (if applicable)</label>
+            <input
+              type="text"
+              id="plus_one"
+              name="plus_one"
+              autocomplete="off"
+              placeholder="Guest name"
+            />
+            <span class="field-note">Leave blank if you're coming solo.</span>
+          </div>
+
+          <div class="field" id="meal-field" style="display:none">
+            <label for="meal_pref">Meal preference</label>
+            <select id="meal_pref" name="meal_pref">
+              <option value="" disabled selected>Select&hellip;</option>
+              <option value="standard">Standard</option>
+              <option value="vegetarian">Vegetarian</option>
+              <option value="vegan">Vegan</option>
+              <option value="gluten-free">Gluten-free</option>
+            </select>
+          </div>
+
+        </div>
+
+        <div id="form-error" class="form-message form-message--error" role="alert" style="display:none"></div>
+
+        <button type="submit" class="btn btn--filled submit-btn">Send RSVP</button>
+      </form>
+
+      <div id="rsvp-success" class="success-block" style="display:none">
+        <p class="display success-heading">Thank you.</p>
+        <p id="success-text" class="success-body"></p>
+      </div>
+
+    </div>
+  </div>
+
+</BaseLayout>
+
+<script>
+const form = document.getElementById('rsvp-form') as HTMLFormElement;
+const attendingSelect = document.getElementById('attending') as HTMLSelectElement;
+const plusOneField = document.getElementById('plus-one-field') as HTMLElement;
+const mealField = document.getElementById('meal-field') as HTMLElement;
+const errorBox = document.getElementById('form-error') as HTMLElement;
+const successBlock = document.getElementById('rsvp-success') as HTMLElement;
+const successText = document.getElementById('success-text') as HTMLElement;
+
+attendingSelect.addEventListener('change', () => {
+  const attending = attendingSelect.value === 'yes';
+  plusOneField.style.display = attending ? 'flex' : 'none';
+  mealField.style.display = attending ? 'flex' : 'none';
+});
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  errorBox.style.display = 'none';
+
+  const nameVal = (form.elements.namedItem('name') as HTMLInputElement).value.trim();
+  const attendingVal = attendingSelect.value;
+
+  if (!nameVal) {
+    showError('Please enter your name.');
+    return;
+  }
+  if (!attendingVal) {
+    showError('Please select whether you will be attending.');
+    return;
+  }
+
+  const btn = form.querySelector('.submit-btn') as HTMLButtonElement;
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+
+  const payload = {
+    name: nameVal,
+    attending: attendingVal,
+    plus_one: (form.elements.namedItem('plus_one') as HTMLInputElement)?.value.trim() || null,
+    meal_pref: (form.elements.namedItem('meal_pref') as HTMLSelectElement)?.value || null,
+  };
+
+  try {
+    const res = await fetch('/api/rsvp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      throw new Error((data as any).error || 'Something went wrong. Please try again.');
+    }
+
+    form.style.display = 'none';
+    successBlock.style.display = 'block';
+    successText.textContent = attendingVal === 'yes'
+      ? `We've got you down, ${nameVal}. Can't wait to celebrate with you.`
+      : `We're sorry you can't make it, ${nameVal}. We'll be thinking of you.`;
+  } catch (err: any) {
+    showError(err.message || 'Something went wrong. Please try again.');
+    btn.disabled = false;
+    btn.textContent = 'Send RSVP';
+  }
+});
+
+function showError(msg: string) {
+  errorBox.textContent = msg;
+  errorBox.style.display = 'block';
+  errorBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+</script>
+
+<style>
+.rsvp-layout {
+  padding-bottom: var(--s-xl);
+}
+
+.rsvp-header {
+  margin-bottom: var(--s-lg);
+}
+
+.rsvp-deadline {
+  font-size: 0.9rem;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+.rsvp-deadline strong {
+  color: var(--charcoal);
+  font-weight: 500;
+}
+
+.rsvp-body {
+  max-width: 560px;
+}
+
+.rsvp-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-md);
+}
+
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-sm);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.field-note {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.submit-btn {
+  align-self: flex-start;
+  margin-top: var(--s-xs);
+}
+.submit-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.form-message {
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+}
+.form-message--error {
+  background: oklch(72% 0.1 15 / 0.12);
+  border: 1px solid oklch(72% 0.1 15 / 0.4);
+  color: oklch(40% 0.1 15);
+}
+
+/* ─── Success ───────────────────────────────────────────────────────────── */
+.success-block {
+  padding: var(--s-lg) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-sm);
+}
+
+.success-heading {
+  font-size: 3rem;
+  color: var(--accent);
+  font-style: italic;
+}
+
+.success-body {
+  font-size: 1.05rem;
+  color: oklch(from var(--charcoal) calc(l + 0.18) c h);
+  max-width: 45ch;
+  line-height: 1.6;
+}
+</style>

@@ -1,0 +1,120 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const registries = [
+  {
+    name: "[Registry Name]",
+    url: "https://example.com",
+    description: "Our primary registry. Home goods, kitchen, and everything for the new chapter.",
+  },
+  {
+    name: "[Honeymoon Fund]",
+    url: "https://example.com",
+    description: "If you'd like to contribute to our honeymoon, this is the place. Every bit helps us get somewhere incredible.",
+  },
+  {
+    name: "[Registry Name]",
+    url: "https://example.com",
+    description: "A smaller selection of meaningful items we'd love to have.",
+  },
+];
+---
+<BaseLayout title="Registry" description="Jack and Jenna's wedding registry links.">
+
+  <div class="section section--wide">
+    <h1 class="page-heading">Registry</h1>
+    <p class="registry-intro prose">
+      Your presence at the wedding is the gift. If you'd like to give something,
+      here are a few places we're registered.
+    </p>
+
+    <ul class="registry-list" role="list">
+      {registries.map((r, i) => (
+        <li class="registry-item">
+          <span class="registry-num display">{String(i + 1).padStart(2, "0")}</span>
+          <div class="registry-content">
+            <h2 class="display registry-name">{r.name}</h2>
+            <p class="registry-desc">{r.description}</p>
+          </div>
+          <a
+            href={r.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn registry-link"
+          >
+            View Registry &rarr;
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+</BaseLayout>
+
+<style>
+.registry-intro {
+  margin-bottom: var(--s-lg);
+  color: oklch(from var(--charcoal) calc(l + 0.2) c h);
+}
+
+.registry-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: oklch(from var(--blush) l c h / 0.3);
+  border: 1px solid oklch(from var(--blush) l c h / 0.3);
+}
+
+.registry-item {
+  background: var(--cream);
+  padding: var(--s-md) var(--s-md);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-md);
+  transition: background 0.15s ease;
+}
+.registry-item:hover {
+  background: oklch(from var(--blush) l c h / 0.1);
+}
+
+.registry-num {
+  font-size: 2.2rem;
+  color: oklch(from var(--blush) calc(l - 0.12) c h);
+  line-height: 1;
+  flex-shrink: 0;
+  width: 3ch;
+}
+
+.registry-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.registry-name {
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-weight: 300;
+  color: var(--accent);
+  font-style: italic;
+}
+
+.registry-desc {
+  font-size: 0.9rem;
+  color: oklch(from var(--charcoal) calc(l + 0.25) c h);
+  max-width: 55ch;
+  line-height: 1.55;
+}
+
+.registry-link {
+  flex-shrink: 0;
+  align-self: center;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .registry-item { flex-wrap: wrap; }
+  .registry-link { width: 100%; text-align: center; }
+}
+</style>
